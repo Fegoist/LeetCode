@@ -1,0 +1,23 @@
+package ReverseInt;
+
+class Solution
+{
+    public int reverse(int x)
+    {
+        boolean isPos = true;
+        if (x >= 0)
+        {
+            isPos = true;
+        } else
+        {
+            isPos = false;
+        }
+        String str_ori = String.valueOf(Math.abs(x));
+        String str_des = strReverse(str_ori);
+
+    }
+    public String strReverse(String s)
+    {
+        return strReverse()
+    }
+}
