@@ -2,62 +2,51 @@ package ReverseInt;
 
 class Solution
 {
-    /*
-    {
-        int i = 534236469;
-        System.out.println("i:  " + i);
-        System.out.println("i*10:  " + i * 10);
-    }
-    */
     public int reverse(int x)
     {
-        if (x > (Math.pow(2, 32) - 1) / 10 || x < -(Math.pow(2, 32) - 1) / 10)
-        {
-            return 0;
-        }
-
         boolean isPositive = true;
         if (x >= 0)
         {
             isPositive = true;
-        } else
+        }
+        else
         {
             isPositive = false;
         }
 
 
-        int absRes = absReverse(Math.abs(x), depthOfInt(x));
+        long absResLong = absReverse(Math.abs(x), depthOfInt(x));
+        int absRes = (absResLong > (Math.pow(2, 31) - 1) || absResLong < -(Math.pow(2, 31) - 1)) ? 0 : (int) absResLong;
 
         if (isPositive)
         {
             return absRes;
-        } else
+        }
+        else
         {
             return -absRes;
         }
     }
 
-    public int absReverse(int srcInt, int depth)
+    public long absReverse(long srcInt, int depth)
     {
-
-        int quotient, remainder = 0;
+        long quotient, remainder = 0;
 
         if (depth >= 1)
         {
-            quotient = srcInt / (int) Math.pow(10, depth);
-            remainder = srcInt - quotient * (int) Math.pow(10, depth);
-
-            //System.out.println("head: " + quotient + "  rest: " + remainder);
+            quotient = srcInt / (long) Math.pow(10, depth);
+            remainder = srcInt - quotient * (long) Math.pow(10, depth);
             int upDepth = depthOfInt(remainder);
-            int upRemainder = absReverse(remainder, upDepth) * (int) Math.pow(10, depth - upDepth);
+            long upRemainder = absReverse(remainder, upDepth) * (long) Math.pow(10, depth - upDepth);
             return upRemainder + quotient;
-        } else
+        }
+        else
         {
             return srcInt;
         }
     }
 
-    public int depthOfInt(int x)
+    public int depthOfInt(long x)
     {
         String strOfx = String.valueOf(Math.abs(x));
         int digiLen = strOfx.length() - 1;
