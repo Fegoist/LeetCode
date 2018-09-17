@@ -1,43 +1,52 @@
-package Solution;
+package LongSubStr;
 
-class Solution
+public class Solution
 {
     public int lengthOfLongestSubstring(String s)
     {
-        int iter = 0;
-        String str_sub = new String("");
-        int len_max = str_sub.length();
+        int subHead = 0;
+        int checkPos = 0;
+
+        //String subCur = new String("");
 
         if (s.length() == 0)
         {
             return 0;
         }
-        while (iter <= s.length() - 1)
+        int subLenMax = 1;
+
+        while (subHead <= s.length() - 1 && checkPos <= s.length() - 1)
         {
-            //System.out.println(s.substring(iter, iter + 1));
-            System.out.println(str_sub);
+            String subCur = s.substring(subHead, subHead + 1);
+            checkPos = subHead + 1;
 
-            if (str_sub.contains(s.substring(iter, iter + 1)))
+            //System.out.println("sub starts with:    " + subCur);
+            //System.out.println("check starts with:    " + s.substring(checkPos, checkPos + 1));
+
+            int letterPosInSub = -1;
+
+            while (letterPosInSub == -1 && checkPos <= s.length() - 1)
             {
-                //System.out.println('0');
+                String checkLetter = s.substring(checkPos, checkPos + 1);
+                letterPosInSub = subCur.indexOf(checkLetter);
 
-                len_max = (str_sub.length() > len_max) ? str_sub.length() : len_max;
-                str_sub = "";
-            } else
-            {
-                //System.out.println('1');
+                if (letterPosInSub == -1)
+                {
+                    //letter not find in current substr
+                    //System.out.println('0');
+                    subCur = subCur.concat(checkLetter);
+                    subLenMax = (subCur.length() > subLenMax) ? subCur.length() : subLenMax;
+                    checkPos++;
 
-                str_sub.concat(s.substring(iter, iter + 1));
-                iter++;
+                } else
+                {
+                    //letter find at letterPosInSub
+                    //System.out.println('1');
+                    subLenMax = (subCur.length() > subLenMax) ? subCur.length() : subLenMax;
+                    subHead = subHead + letterPosInSub + 1;
+                }
             }
         }
-        return len_max;
-    }
-
-    public static void main(String[] args)
-    {
-        String s1 = new String("abcabcbb");
-        Solution slt = new Solution();
-        System.out.println("lengthOfLongestSubstring: " + slt.lengthOfLongestSubstring(s1));
+        return subLenMax;
     }
 }
