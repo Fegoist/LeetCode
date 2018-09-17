@@ -1,0 +1,58 @@
+package PalindromeNumber;
+
+public class Solution
+{
+    private boolean isNegative(int x)
+    {
+        if (x < 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public long absReverse(long srcInt, int depth)
+    {
+        long quotient, remainder = 0;
+
+        if (depth >= 1)
+        {
+            quotient = srcInt / (long) Math.pow(10, depth);
+            remainder = srcInt - quotient * (long) Math.pow(10, depth);
+            int upDepth = depthOfInt(remainder);
+            long upRemainder = absReverse(remainder, upDepth) * (long) Math.pow(10, depth - upDepth);
+            return upRemainder + quotient;
+        }
+        else
+        {
+            return srcInt;
+        }
+    }
+
+    public int depthOfInt(long x)
+    {
+        String strOfx = String.valueOf(Math.abs(x));
+        int digiLen = strOfx.length() - 1;
+        return digiLen;
+    }
+
+    public boolean isPalindrome(int x)
+    {
+        if (isNegative(x))
+        {
+            return false;
+        }
+        long absResLong = absReverse(Math.abs(x), depthOfInt(x));
+        if(absResLong == x)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+}
